@@ -1,0 +1,18 @@
+listen_addr: ":8080"
+pg:
+  endpoint: "localhost:25432"
+  database: "stockpilot"
+  username: "postgres"
+  password: "postgres"
+  sslmode: "disable"
+log:
+  level: "debug"
+  output: "stdout"
+  encoding: "json"
+  log_http_requests: true
+sentry: {}
+tracing:
+  name: "stockpilot"
+  endpoint: "localhost:4317"
+  sample_ratio: 1
+  insecure: true

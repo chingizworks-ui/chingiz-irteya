@@ -1,0 +1,215 @@
+definitions:
+  handler.CreateOrderItemBody:
+    properties:
+      product_id:
+        type: string
+      quantity:
+        type: integer
+    type: object
+  handler.CreateOrderRequest:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/handler.CreateOrderItemBody'
+        type: array
+      user_id:
+        type: string
+    type: object
+  handler.CreateProductRequest:
+    properties:
+      description:
+        type: string
+      price:
+        type: string
+      quantity:
+        type: integer
+      tags:
+        items:
+          type: string
+        type: array
+    type: object
+  handler.ErrorResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  handler.OrderItemResponse:
+    properties:
+      id:
+        type: string
+      price:
+        type: string
+      product_id:
+        type: string
+      quantity:
+        type: integer
+    type: object
+  handler.OrderResponse:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: string
+      items:
+        items:
+          $ref: '#/definitions/handler.OrderItemResponse'
+        type: array
+      total_price:
+        type: string
+      user_id:
+        type: string
+    type: object
+  handler.ProductResponse:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      price:
+        type: string
+      quantity:
+        type: integer
+      tags:
+        items:
+          type: string
+        type: array
+      updated_at:
+        type: string
+    type: object
+  handler.RegisterUserRequest:
+    properties:
+      age:
+        type: integer
+      email:
+        type: string
+      first_name:
+        type: string
+      is_married:
+        type: boolean
+      last_name:
+        type: string
+      password:
+        type: string
+    type: object
+  handler.UserResponse:
+    properties:
+      age:
+        type: integer
+      created_at:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      full_name:
+        type: string
+      id:
+        type: string
+      is_married:
+        type: boolean
+      last_name:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v1/orders:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: create order
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.CreateOrderRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handler.OrderResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Create order
+      tags:
+      - orders
+  /api/v1/products:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: create product
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.CreateProductRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handler.ProductResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Create product
+      tags:
+      - products
+  /api/v1/products/{id}:
+    get:
+      parameters:
+      - description: product id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.ProductResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Get product by id
+      tags:
+      - products
+  /api/v1/users/register:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: register
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.RegisterUserRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handler.UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Register user
+      tags:
+      - users
+swagger: "2.0"
